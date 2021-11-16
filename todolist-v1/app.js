@@ -2,9 +2,12 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const { request } = require("express");
 
 const app = express();
 app.set("view engine", "ejs");
+
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.get("/", function(req, res) {
@@ -23,6 +26,11 @@ app.get("/", function(req, res) {
 
     res.render("list", {kindOfDay: day});
 });
+
+app.post("/", function(req, res) {
+    var item = req.body.newItem;
+    res.render("list", {newListItem});
+})
 
 app.listen(3000, function(req, res) {
     console.log("Server is running on port 3000");

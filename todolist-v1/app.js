@@ -7,6 +7,8 @@ const { request } = require("express");
 const app = express();
 app.set("view engine", "ejs");
 
+var items = ["But Food", "Cook Food", "Eat Food"];
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -24,12 +26,13 @@ app.get("/", function(req, res) {
 
     var currentDay = today.getDay();
 
-    res.render("list", {kindOfDay: day});
+    res.render("list", {kindOfDay: day, newListItems: items});
 });
 
 app.post("/", function(req, res) {
     var item = req.body.newItem;
-    res.render("list", {newListItem});
+    items.push(item);
+    res.redirect("/");
 })
 
 app.listen(3000, function(req, res) {

@@ -16,6 +16,11 @@ app.use(express.static("public"));
 
 let posts = [];
 
+app.get("/posts/:postnum", function(req, res) {
+  // res.send(req.params);
+  console.log(req.params);
+})
+
 app.get("/", function(req, res) {
   res.render("home", {startingContent: homeStartingContent, posts : posts});
 });
@@ -34,8 +39,8 @@ app.get("/compose", function(req, res) {
 
 app.post("/compose", function(req, res) {
   const post = {
-    title: req.body.postTitle,
-    body: req.body.postBody
+    title: req.body.title,
+    content: req.body.content
   };
 
   posts.push(post);

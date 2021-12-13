@@ -1,0 +1,16 @@
+SQL vs NoSQL
+
+Differences:
+
+Structure:
+SQL - Table
+    - Relational Database
+    - Square OFF - Insertion of NULL in table when no data is there
+    - Old and Reliable
+
+NoSQL - JSON Object : Key Value pairs
+      - Modern
+      - Non-Relational Database
+      - More flexible, adapt to situation
+      - Not good at relationship between data
+      

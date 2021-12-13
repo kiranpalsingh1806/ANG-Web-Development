@@ -1,0 +1,14 @@
+
+MYSQL:
+More mature
+Table Structure
+Requires a Schema
+Great with Relationships
+Scales Vertically
+
+MongoDB:
+Shiny and new
+Document Structure
+More flexible to changes
+Not great with complex Relationships
+Horizontally Scalable

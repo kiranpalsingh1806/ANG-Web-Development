@@ -1,47 +1,59 @@
-const { MongoClient } = require('mongodb');
-// or as an es module:
-// import { MongoClient } from 'mongodb'
+const mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true });
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
+const fruitSchema = new mongoose.Schema({
+    name: String,
+    rating: Number,
+    review: String
+});
 
-// Database Name
-const dbName = 'myProject';
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-async function main() {
-    // Use connect method to connect to the server
-    await client.connect();
-    console.log('Connected successfully to server');
-    const db = client.db(dbName);
-    const collection = db.collection('documents');
+const fruit = new Fruit({
+    name: "Apple",
+    rating: 7,
+    review: "Pretty Solid as a fruit."
+});
 
-    // the following code examples can be pasted here...
-    const insertResult = await collection.insertMany([{ a: 1 }, { a: 2 }, { a: 3 }]);
-    console.log('Inserted documents =>', insertResult);
-
-    const findResult = await collection.find({}).toArray();
-    console.log('Found documents =>', findResult);
-
-    const filteredDocs = await collection.find({ a: 3 }).toArray();
-    console.log('Found documents filtered by { a: 3 } =>', filteredDocs);
-
-    const updateResult = await collection.updateOne({ a: 3 }, { $set: { b: 1 } });
-    console.log('Updated documents =>', updateResult);
-
-    const deleteResult = await collection.deleteMany({ a: 3 });
-    console.log('Deleted documents =>', deleteResult);
-
-    const indexName = await collection.createIndex({ a: 1 });
-    console.log('index name =', indexName);
-
-    return 'done.';
-}
+// fruit.save();
 
 
+const personSchema = new mongoose.Schema({
+    name: String,
+    age: Number
+});
 
-main()
-    .then(console.log)
-    .catch(console.error)
-    .finally(() => client.close());
+const Person = mongoose.model("Person", personSchema);
 
+const person = new Person({
+    name: "John",
+    age: 37
+});
+
+// person.save();
+
+const kiwi = new Fruit({
+    name: "Kiwi",
+    score: 10,
+    review: "The best Fruit"
+})
+
+const orange = new Fruit({
+    name: "Orange",
+    score: 9,
+    review: "Great in summer"
+})
+
+const banana = new Fruit({
+    name: "Banana",
+    score: 10,
+    review: "Great fruit again !!!"
+})
+
+Fruit.insertMany([kiwi, orange, banana], function (err) {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log("Successfully saved all the fruits to fruitsDB");
+    }
+});

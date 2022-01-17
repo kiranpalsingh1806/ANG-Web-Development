@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
+const req = require("express/lib/request");
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.get("/", function (req, res) {
     res.send("<div> Hello World </div>")
 })
 
+// Requests targeting all articles
 app.route("/articles")
     .get(function (req, res) {
         Article.find(function (err, foundArticles) {
@@ -60,6 +62,22 @@ app.route("/articles")
             }
         });
     });
+
+
+// Requests targeting all articles
+
+app.route("/articles/:articleTitle")
+    // const title = req.params.articleTitle
+    .get(function (req, res) {
+        Article.findOne({ title: req.params.articleTitle }, function (err, foundArticle) {
+            if (foundArticle) {
+                res.send(foundArticle);
+            } else {
+                res.send("No articles matching that title was found!")
+            }
+        })
+    });
+
 
 app.listen(3000, function () {
     console.log("Server started on port 3000");

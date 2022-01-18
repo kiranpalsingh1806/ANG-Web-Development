@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
 const req = require("express/lib/request");
+const { response } = require("express");
 
 const app = express();
 
@@ -76,7 +77,22 @@ app.route("/articles/:articleTitle")
                 res.send("No articles matching that title was found!")
             }
         })
-    });
+    })
+    .put(function (req, res) {
+        Article.findOneAndUpdate( //update is deprecated :]
+            { title: req.params.articleTitle },
+            { title: req.body.title, content: req.body.content },
+            { overwrite: true },
+            function (err) {
+                if (!err) {
+                    res.send("Successfully updated articles.")
+                } else {
+                    res.send("Could not update article :(");
+                    console.log(err);
+                }
+            }
+        );
+    })
 
 
 app.listen(3000, function () {
